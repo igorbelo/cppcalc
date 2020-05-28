@@ -1,0 +1,6 @@
+.DS_STORE
+fasd
+output/
+.vscode/
+input.in
+*.o
