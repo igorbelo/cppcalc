@@ -41,6 +41,6 @@ llvm::Value* Codegen::create_operation(std::string op, llvm::Value* lhs, llvm::V
     } else if (op.compare("*") == 0) {
         return builder.CreateMul(lhs, rhs, "multmp");
     } else {
-        return builder.CreateFDiv(lhs, rhs, "divtmp");
+        return builder.CreateUDiv(lhs, rhs, "divtmp");
     }
 }
