@@ -3,6 +3,7 @@
 #include "FasdParser.h"
 #include "FasdBaseListener.h"
 #include "llvm/IR/LLVMContext.h"
+#include <string>
 
 static llvm::LLVMContext context;
 
@@ -21,9 +22,13 @@ struct Listener : FasdBaseListener {
 
     void exitAddSub(FasdParser::AddSubContext*) override;
 
+    void exitMulDiv(FasdParser::MulDivContext*) override;
+
     void exitStart(FasdParser::StartContext*) override;
 
 private:
     Stack<int> number_stack;
     Codegen* codegen;
+
+    void exitBinaryOperation(std::string op);
 };

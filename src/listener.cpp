@@ -14,7 +14,15 @@ void Listener::exitNumber(FasdParser::NumberContext* ctx) {
 
 void Listener::exitAddSub(FasdParser::AddSubContext* ctx) {
     string op = ctx->op->getText();
+    exitBinaryOperation(op);
+}
 
+void Listener::exitMulDiv(FasdParser::MulDivContext* ctx) {
+    string op = ctx->op->getText();
+    exitBinaryOperation(op);
+}
+
+void Listener::exitBinaryOperation(string op) {
     if (number_stack.size() < 2) {
         codegen->generate_operation(op, number_stack.pop());
     } else {
