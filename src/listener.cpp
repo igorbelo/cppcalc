@@ -9,7 +9,7 @@ void Listener::enterStart(FasdParser::StartContext*) {
 }
 
 void Listener::exitNumber(FasdParser::NumberContext* ctx) {
-    number_stack.push(stoi(ctx->getText()));
+    codegen->generate_number(stoi(ctx->getText()));
 }
 
 void Listener::exitAddSub(FasdParser::AddSubContext* ctx) {
@@ -23,14 +23,7 @@ void Listener::exitMulDiv(FasdParser::MulDivContext* ctx) {
 }
 
 void Listener::exitBinaryOperation(string op) {
-    if (number_stack.size() == 0) {
-        codegen->generate_operation(op);
-    } else if (number_stack.size() == 1) {
-        codegen->generate_operation(op, number_stack.pop());
-    } else {
-        int rhs = number_stack.pop();
-        codegen->generate_operation(op, number_stack.pop(), rhs);
-    }
+    codegen->generate_operation(op);
 }
 
 void Listener::exitStart(FasdParser::StartContext*) {
