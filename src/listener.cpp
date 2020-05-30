@@ -23,10 +23,13 @@ void Listener::exitMulDiv(FasdParser::MulDivContext* ctx) {
 }
 
 void Listener::exitBinaryOperation(string op) {
-    if (number_stack.size() < 2) {
+    if (number_stack.size() == 0) {
+        codegen->generate_operation(op);
+    } else if (number_stack.size() == 1) {
         codegen->generate_operation(op, number_stack.pop());
     } else {
-        codegen->generate_operation(op, number_stack.pop(), number_stack.pop());
+        int rhs = number_stack.pop();
+        codegen->generate_operation(op, number_stack.pop(), rhs);
     }
 }
 

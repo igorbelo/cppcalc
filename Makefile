@@ -25,7 +25,7 @@ build_and_run:
 	./$(EXECUTABLE_NAME)
 
 generate_parser:
-	antlr4 -Dlanguage=Cpp -o src/parser Fasd.g4
+	java -Xmx500M -cp "/usr/local/lib/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool -Dlanguage=Cpp -o src/parser Fasd.g4
 
 clean:
 	rm output/* $(EXECUTABLE_NAME)

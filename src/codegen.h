@@ -9,6 +9,7 @@ struct Codegen {
     void generate_start();
     void generate_operation(std::string op, int lhs, int rhs);
     void generate_operation(std::string op, int rhs);
+    void generate_operation(std::string op);
     void print();
 
 private:
@@ -16,7 +17,7 @@ private:
     llvm::Module module;
     llvm::IRBuilder<> builder;
     Stack<llvm::BasicBlock*> block_stack;
-    llvm::Value* ret;
+    Stack<llvm::Value*> ret_stack;
 
     llvm::Value* create_operation(std::string op, llvm::Value* lhs, llvm::Value* rhs);
 };

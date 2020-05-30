@@ -4,6 +4,7 @@
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/IRBuilder.h"
 #include <string>
+#include <iostream>
 
 Codegen::Codegen(llvm::LLVMContext& context) : context(context), module("top", context), builder(context) {}
 
@@ -19,28 +20,36 @@ void Codegen::generate_operation(std::string op, int lhs, int rhs) {
     llvm::Value* llvm_rhs = llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), rhs);
     builder.SetInsertPoint(block_stack.get());
     
-    ret = create_operation(op, llvm_lhs, llvm_rhs);
+    ret_stack.push(create_operation(op, llvm_lhs, llvm_rhs));
 }
 
 void Codegen::generate_operation(std::string op, int rhs) {
+    llvm::Value* llvm_lhs = ret_stack.pop();
     llvm::Value* llvm_rhs = llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), rhs);
 
-    ret = create_operation(op, ret, llvm_rhs);
+    ret_stack.push(create_operation(op, llvm_lhs, llvm_rhs));
+}
+
+void Codegen::generate_operation(std::string op) {
+    llvm::Value* llvm_rhs = ret_stack.pop();
+    llvm::Value* llvm_lhs = ret_stack.pop();
+
+    ret_stack.push(create_operation(op, llvm_lhs, llvm_rhs));
 }
 
 void Codegen::print() {
-    builder.CreateRet(ret);
+    builder.CreateRet(ret_stack.pop());
     module.print(llvm::errs(), nullptr);
 }
 
 llvm::Value* Codegen::create_operation(std::string op, llvm::Value* lhs, llvm::Value* rhs) {
     if (op.compare("+") == 0) {
-        return builder.CreateAdd(lhs, rhs, "addtmp");
+        return builder.CreateAdd(lhs, rhs);
     } else if (op.compare("-") == 0) {
-        return builder.CreateSub(lhs, rhs, "subtmp");
+        return builder.CreateSub(lhs, rhs);
     } else if (op.compare("*") == 0) {
-        return builder.CreateMul(lhs, rhs, "multmp");
+        return builder.CreateMul(lhs, rhs);
     } else {
-        return builder.CreateUDiv(lhs, rhs, "divtmp");
+        return builder.CreateUDiv(lhs, rhs);
     }
 }
