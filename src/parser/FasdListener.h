@@ -17,6 +17,12 @@ public:
   virtual void enterStart(FasdParser::StartContext *ctx) = 0;
   virtual void exitStart(FasdParser::StartContext *ctx) = 0;
 
+  virtual void enterAssignment(FasdParser::AssignmentContext *ctx) = 0;
+  virtual void exitAssignment(FasdParser::AssignmentContext *ctx) = 0;
+
+  virtual void enterIdentifier(FasdParser::IdentifierContext *ctx) = 0;
+  virtual void exitIdentifier(FasdParser::IdentifierContext *ctx) = 0;
+
   virtual void enterNumber(FasdParser::NumberContext *ctx) = 0;
   virtual void exitNumber(FasdParser::NumberContext *ctx) = 0;
 

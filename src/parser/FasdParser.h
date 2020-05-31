@@ -12,12 +12,12 @@
 class  FasdParser : public antlr4::Parser {
 public:
   enum {
-    T__0 = 1, T__1 = 2, MUL = 3, DIV = 4, ADD = 5, SUB = 6, NUMBER = 7, 
-    WHITESPACE = 8
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, MUL = 5, DIV = 6, ADD = 7, SUB = 8, 
+    NUMBER = 9, WHITESPACE = 10, IDENTIFIER = 11
   };
 
   enum {
-    RuleStart = 0, RuleExpression = 1
+    RuleStart = 0, RuleAssignment = 1, RuleExpression = 2
   };
 
   FasdParser(antlr4::TokenStream *input);
@@ -31,6 +31,7 @@ public:
 
 
   class StartContext;
+  class AssignmentContext;
   class ExpressionContext; 
 
   class  StartContext : public antlr4::ParserRuleContext {
@@ -39,6 +40,7 @@ public:
     virtual size_t getRuleIndex() const override;
     ExpressionContext *expression();
     antlr4::tree::TerminalNode *EOF();
+    AssignmentContext *assignment();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -46,6 +48,21 @@ public:
   };
 
   StartContext* start();
+
+  class  AssignmentContext : public antlr4::ParserRuleContext {
+  public:
+    antlr4::Token *identifier = nullptr;;
+    AssignmentContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ExpressionContext *expression();
+    antlr4::tree::TerminalNode *IDENTIFIER();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+   
+  };
+
+  AssignmentContext* assignment();
 
   class  ExpressionContext : public antlr4::ParserRuleContext {
   public:
@@ -58,6 +75,15 @@ public:
     virtual size_t getRuleIndex() const override;
 
    
+  };
+
+  class  IdentifierContext : public ExpressionContext {
+  public:
+    IdentifierContext(ExpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *IDENTIFIER();
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
   };
 
   class  NumberContext : public ExpressionContext {

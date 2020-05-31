@@ -16,6 +16,14 @@ void Codegen::generate_start() {
     block_stack.push(block);
 }
 
+void Codegen::generate_assignment(std::string identifier) {
+    assignments[identifier] = ret_stack.pop();
+}
+
+void Codegen::generate_identifier(std::string identifier) {
+    ret_stack.push(assignments[identifier]);
+}
+
 void Codegen::generate_number(int number) {
     ret_stack.push(llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), number));
 }

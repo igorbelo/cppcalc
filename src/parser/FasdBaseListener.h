@@ -19,6 +19,12 @@ public:
   virtual void enterStart(FasdParser::StartContext * /*ctx*/) override { }
   virtual void exitStart(FasdParser::StartContext * /*ctx*/) override { }
 
+  virtual void enterAssignment(FasdParser::AssignmentContext * /*ctx*/) override { }
+  virtual void exitAssignment(FasdParser::AssignmentContext * /*ctx*/) override { }
+
+  virtual void enterIdentifier(FasdParser::IdentifierContext * /*ctx*/) override { }
+  virtual void exitIdentifier(FasdParser::IdentifierContext * /*ctx*/) override { }
+
   virtual void enterNumber(FasdParser::NumberContext * /*ctx*/) override { }
   virtual void exitNumber(FasdParser::NumberContext * /*ctx*/) override { }
 

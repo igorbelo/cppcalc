@@ -8,6 +8,14 @@ void Listener::enterStart(FasdParser::StartContext*) {
     codegen->generate_start();
 }
 
+void Listener::exitIdentifier(FasdParser::IdentifierContext* ctx) {
+    codegen->generate_identifier(ctx->getText());
+}
+
+void Listener::exitAssignment(FasdParser::AssignmentContext* ctx) {
+    codegen->generate_assignment(ctx->identifier->getText());
+}
+
 void Listener::exitNumber(FasdParser::NumberContext* ctx) {
     codegen->generate_number(stoi(ctx->getText()));
 }

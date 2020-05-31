@@ -12,8 +12,8 @@
 class  FasdLexer : public antlr4::Lexer {
 public:
   enum {
-    T__0 = 1, T__1 = 2, MUL = 3, DIV = 4, ADD = 5, SUB = 6, NUMBER = 7, 
-    WHITESPACE = 8
+    T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, MUL = 5, DIV = 6, ADD = 7, SUB = 8, 
+    NUMBER = 9, WHITESPACE = 10, IDENTIFIER = 11
   };
 
   FasdLexer(antlr4::CharStream *input);

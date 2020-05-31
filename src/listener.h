@@ -20,9 +20,13 @@ struct Listener : FasdBaseListener {
 
     void exitNumber(FasdParser::NumberContext*) override;
 
+    void exitIdentifier(FasdParser::IdentifierContext*) override;
+
     void exitAddSub(FasdParser::AddSubContext*) override;
 
     void exitMulDiv(FasdParser::MulDivContext*) override;
+
+    void exitAssignment(FasdParser::AssignmentContext*) override;
 
     void exitStart(FasdParser::StartContext*) override;
 
