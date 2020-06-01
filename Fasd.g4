@@ -12,7 +12,7 @@ IDENTIFIER: [a-zA-Z]+;
 // Rules
 start 
    : expression EOF
-   | assignment ',' expression
+   | (assignment ',')* expression
    ;
 
 assignment
