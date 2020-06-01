@@ -21,4 +21,6 @@ private:
     Stack<llvm::BasicBlock*> block_stack;
     Stack<llvm::Value*> ret_stack;
     std::map<std::string, llvm::Value*> assignments;
+
+    void run_passes();
 };

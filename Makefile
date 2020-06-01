@@ -8,7 +8,7 @@ CC=clang++
 CCARGS=-c `$(LLVMHEADERS)` -I src -I $(RUNTIME)/antlr4-runtime/ -I $(GENERATED)
 LDARGS=-g
 LLVMHEADERS=llvm-config --cxxflags
-LLVMARGS=llvm-config --libs codegen --system-libs --ldflags
+LLVMARGS=llvm-config --libs codegen passes --system-libs --ldflags
 LIBS=$(RUNTIME)/lib/libantlr4-runtime.a `$(LLVMARGS)`
 
 all: build_and_run

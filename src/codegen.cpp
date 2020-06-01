@@ -3,6 +3,7 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/IRBuilder.h"
+#include "llvm/Passes/PassBuilder.h"
 #include <string>
 #include <iostream>
 
@@ -48,5 +49,21 @@ void Codegen::generate_operation(std::string op) {
 
 void Codegen::print() {
     builder.CreateRet(ret_stack.pop());
+    run_passes();
     module.print(llvm::errs(), nullptr);
+}
+
+void Codegen::run_passes() {
+    llvm::PassBuilder passBuilder;
+    llvm::LoopAnalysisManager loopAnalysisManager(true);
+    llvm::FunctionAnalysisManager functionAnalysisManager(true);
+    llvm::CGSCCAnalysisManager cGSCCAnalysisManager(true);
+    llvm::ModuleAnalysisManager moduleAnalysisManager(true);
+    passBuilder.registerModuleAnalyses(moduleAnalysisManager);
+    passBuilder.registerCGSCCAnalyses(cGSCCAnalysisManager);
+    passBuilder.registerFunctionAnalyses(functionAnalysisManager);
+    passBuilder.registerLoopAnalyses(loopAnalysisManager);
+    passBuilder.crossRegisterProxies(loopAnalysisManager, functionAnalysisManager, cGSCCAnalysisManager, moduleAnalysisManager);
+    llvm::ModulePassManager modulePassManager = passBuilder.buildPerModuleDefaultPipeline(llvm::PassBuilder::OptimizationLevel::O1);
+    modulePassManager.run(module, moduleAnalysisManager);
 }
