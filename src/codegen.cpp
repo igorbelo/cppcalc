@@ -17,11 +17,14 @@ void Codegen::generate_start() {
 }
 
 void Codegen::generate_assignment(std::string identifier) {
-    assignments[identifier] = ret_stack.pop();
+    llvm::Value* v = builder.CreateAlloca(llvm::Type::getInt32Ty(context), nullptr, identifier);
+    builder.CreateStore(ret_stack.pop(), v);
+    assignments[identifier] = v;
 }
 
 void Codegen::generate_identifier(std::string identifier) {
-    ret_stack.push(assignments[identifier]);
+    llvm::Value* loaded_value = builder.CreateLoad(assignments[identifier]);
+    ret_stack.push(loaded_value);
 }
 
 void Codegen::generate_number(int number) {
