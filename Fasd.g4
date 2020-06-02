@@ -12,11 +12,19 @@ IDENTIFIER: [a-zA-Z]+;
 // Rules
 start 
    : expression EOF
-   | (assignment ',')* expression
+   | (assignment|fnExpression ',')* expression
    ;
 
 assignment
    : identifier=IDENTIFIER '=' expression
+   ;
+
+fnExpression
+   : fnDeclaration '=' expression
+   ;
+
+fnDeclaration
+   : identifier=IDENTIFIER '(' param_name=IDENTIFIER ')'
    ;
 
 expression

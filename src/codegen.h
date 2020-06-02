@@ -12,6 +12,8 @@ struct Codegen {
     void generate_operation(std::string op);
     void generate_assignment(std::string identifier);
     void generate_identifier(std::string identifier);
+    void generate_function_declaration(std::string identifier, std::string param);
+    void generate_function_expression();
     void print();
 
 private:

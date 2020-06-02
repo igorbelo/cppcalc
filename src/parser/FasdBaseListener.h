@@ -22,6 +22,12 @@ public:
   virtual void enterAssignment(FasdParser::AssignmentContext * /*ctx*/) override { }
   virtual void exitAssignment(FasdParser::AssignmentContext * /*ctx*/) override { }
 
+  virtual void enterFnExpression(FasdParser::FnExpressionContext * /*ctx*/) override { }
+  virtual void exitFnExpression(FasdParser::FnExpressionContext * /*ctx*/) override { }
+
+  virtual void enterFnDeclaration(FasdParser::FnDeclarationContext * /*ctx*/) override { }
+  virtual void exitFnDeclaration(FasdParser::FnDeclarationContext * /*ctx*/) override { }
+
   virtual void enterIdentifier(FasdParser::IdentifierContext * /*ctx*/) override { }
   virtual void exitIdentifier(FasdParser::IdentifierContext * /*ctx*/) override { }
 

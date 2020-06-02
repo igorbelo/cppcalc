@@ -17,7 +17,8 @@ public:
   };
 
   enum {
-    RuleStart = 0, RuleAssignment = 1, RuleExpression = 2
+    RuleStart = 0, RuleAssignment = 1, RuleFnExpression = 2, RuleFnDeclaration = 3, 
+    RuleExpression = 4
   };
 
   FasdParser(antlr4::TokenStream *input);
@@ -32,6 +33,8 @@ public:
 
   class StartContext;
   class AssignmentContext;
+  class FnExpressionContext;
+  class FnDeclarationContext;
   class ExpressionContext; 
 
   class  StartContext : public antlr4::ParserRuleContext {
@@ -42,6 +45,8 @@ public:
     antlr4::tree::TerminalNode *EOF();
     std::vector<AssignmentContext *> assignment();
     AssignmentContext* assignment(size_t i);
+    std::vector<FnExpressionContext *> fnExpression();
+    FnExpressionContext* fnExpression(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -64,6 +69,36 @@ public:
   };
 
   AssignmentContext* assignment();
+
+  class  FnExpressionContext : public antlr4::ParserRuleContext {
+  public:
+    FnExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    FnDeclarationContext *fnDeclaration();
+    ExpressionContext *expression();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+   
+  };
+
+  FnExpressionContext* fnExpression();
+
+  class  FnDeclarationContext : public antlr4::ParserRuleContext {
+  public:
+    antlr4::Token *identifier = nullptr;;
+    antlr4::Token *param_name = nullptr;;
+    FnDeclarationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    std::vector<antlr4::tree::TerminalNode *> IDENTIFIER();
+    antlr4::tree::TerminalNode* IDENTIFIER(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+   
+  };
+
+  FnDeclarationContext* fnDeclaration();
 
   class  ExpressionContext : public antlr4::ParserRuleContext {
   public:

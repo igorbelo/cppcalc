@@ -22,6 +22,10 @@ struct Listener : FasdBaseListener {
 
     void exitIdentifier(FasdParser::IdentifierContext*) override;
 
+    void exitFnDeclaration(FasdParser::FnDeclarationContext*) override;
+
+    void exitFnExpression(FasdParser::FnExpressionContext*) override;
+
     void exitAddSub(FasdParser::AddSubContext*) override;
 
     void exitMulDiv(FasdParser::MulDivContext*) override;

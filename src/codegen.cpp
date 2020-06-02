@@ -24,8 +24,7 @@ void Codegen::generate_assignment(std::string identifier) {
 }
 
 void Codegen::generate_identifier(std::string identifier) {
-    llvm::Value* loaded_value = builder.CreateLoad(assignments[identifier]);
-    ret_stack.push(loaded_value);
+    ret_stack.push(assignments[identifier]);
 }
 
 void Codegen::generate_number(int number) {
@@ -47,6 +46,31 @@ void Codegen::generate_operation(std::string op) {
     }
 }
 
+void Codegen::generate_function_declaration(std::string identifier, std::string parameter) {
+    llvm::FunctionType* funcType = llvm::FunctionType::get(builder.getInt32Ty(), builder.getInt32Ty(), false);
+    llvm::Function* func = llvm::Function::Create(
+        funcType, 
+        llvm::Function::ExternalLinkage, 
+        identifier, 
+        module
+    );
+
+    llvm::Function::arg_iterator args = func->arg_begin();
+    llvm::Value* arg1 = args++;
+    arg1->setName(parameter);
+    assignments[parameter] = arg1;
+
+    llvm::BasicBlock* block = llvm::BasicBlock::Create(context, "entrypoint", func);
+    builder.SetInsertPoint(block);
+    block_stack.push(block);
+}
+
+void Codegen::generate_function_expression() {
+    block_stack.pop();
+    builder.CreateRet(ret_stack.pop());
+    builder.SetInsertPoint(block_stack.get());
+}
+
 void Codegen::print() {
     builder.CreateRet(ret_stack.pop());
     run_passes();
@@ -54,16 +78,16 @@ void Codegen::print() {
 }
 
 void Codegen::run_passes() {
-    llvm::PassBuilder passBuilder;
-    llvm::LoopAnalysisManager loopAnalysisManager(true);
-    llvm::FunctionAnalysisManager functionAnalysisManager(true);
-    llvm::CGSCCAnalysisManager cGSCCAnalysisManager(true);
-    llvm::ModuleAnalysisManager moduleAnalysisManager(true);
-    passBuilder.registerModuleAnalyses(moduleAnalysisManager);
-    passBuilder.registerCGSCCAnalyses(cGSCCAnalysisManager);
-    passBuilder.registerFunctionAnalyses(functionAnalysisManager);
-    passBuilder.registerLoopAnalyses(loopAnalysisManager);
-    passBuilder.crossRegisterProxies(loopAnalysisManager, functionAnalysisManager, cGSCCAnalysisManager, moduleAnalysisManager);
-    llvm::ModulePassManager modulePassManager = passBuilder.buildPerModuleDefaultPipeline(llvm::PassBuilder::OptimizationLevel::O1);
-    modulePassManager.run(module, moduleAnalysisManager);
+    // llvm::PassBuilder passBuilder;
+    // llvm::LoopAnalysisManager loopAnalysisManager(true);
+    // llvm::FunctionAnalysisManager functionAnalysisManager(true);
+    // llvm::CGSCCAnalysisManager cGSCCAnalysisManager(true);
+    // llvm::ModuleAnalysisManager moduleAnalysisManager(true);
+    // passBuilder.registerModuleAnalyses(moduleAnalysisManager);
+    // passBuilder.registerCGSCCAnalyses(cGSCCAnalysisManager);
+    // passBuilder.registerFunctionAnalyses(functionAnalysisManager);
+    // passBuilder.registerLoopAnalyses(loopAnalysisManager);
+    // passBuilder.crossRegisterProxies(loopAnalysisManager, functionAnalysisManager, cGSCCAnalysisManager, moduleAnalysisManager);
+    // llvm::ModulePassManager modulePassManager = passBuilder.buildPerModuleDefaultPipeline(llvm::PassBuilder::OptimizationLevel::O1);
+    // modulePassManager.run(module, moduleAnalysisManager);
 }

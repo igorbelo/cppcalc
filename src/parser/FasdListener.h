@@ -20,6 +20,12 @@ public:
   virtual void enterAssignment(FasdParser::AssignmentContext *ctx) = 0;
   virtual void exitAssignment(FasdParser::AssignmentContext *ctx) = 0;
 
+  virtual void enterFnExpression(FasdParser::FnExpressionContext *ctx) = 0;
+  virtual void exitFnExpression(FasdParser::FnExpressionContext *ctx) = 0;
+
+  virtual void enterFnDeclaration(FasdParser::FnDeclarationContext *ctx) = 0;
+  virtual void exitFnDeclaration(FasdParser::FnDeclarationContext *ctx) = 0;
+
   virtual void enterIdentifier(FasdParser::IdentifierContext *ctx) = 0;
   virtual void exitIdentifier(FasdParser::IdentifierContext *ctx) = 0;
 
