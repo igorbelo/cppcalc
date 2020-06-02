@@ -28,9 +28,10 @@ fnDeclaration
    ;
 
 expression
-   : expression op=('*'|'/') expression # MulDiv
-   | expression op=('+'|'-') expression # AddSub
-   | NUMBER                             # Number
-   | IDENTIFIER                         # Identifier
-   | '(' expression ')'                 # InnerExpr
+   : expression op=('*'|'/') expression       # MulDiv
+   | expression op=('+'|'-') expression       # AddSub
+   | NUMBER                                   # Number
+   | IDENTIFIER                               # Identifier
+   | identifier=IDENTIFIER '(' expression ')' # FunctionCall
+   | '(' expression ')'                       # InnerExpr
    ;

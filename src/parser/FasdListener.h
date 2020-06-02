@@ -41,6 +41,9 @@ public:
   virtual void enterInnerExpr(FasdParser::InnerExprContext *ctx) = 0;
   virtual void exitInnerExpr(FasdParser::InnerExprContext *ctx) = 0;
 
+  virtual void enterFunctionCall(FasdParser::FunctionCallContext *ctx) = 0;
+  virtual void exitFunctionCall(FasdParser::FunctionCallContext *ctx) = 0;
+
 
 };
 

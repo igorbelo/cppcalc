@@ -59,6 +59,7 @@ void Codegen::generate_function_declaration(std::string identifier, std::string 
     llvm::Value* arg1 = args++;
     arg1->setName(parameter);
     assignments[parameter] = arg1;
+    functions[identifier] = func;
 
     llvm::BasicBlock* block = llvm::BasicBlock::Create(context, "entrypoint", func);
     builder.SetInsertPoint(block);
@@ -69,6 +70,12 @@ void Codegen::generate_function_expression() {
     block_stack.pop();
     builder.CreateRet(ret_stack.pop());
     builder.SetInsertPoint(block_stack.get());
+}
+
+void Codegen::generate_function_call(std::string identifier) {
+    std::vector<llvm::Value*> args;
+    args.push_back(ret_stack.pop());
+    ret_stack.push(builder.CreateCall(functions[identifier], args));
 }
 
 void Codegen::print() {

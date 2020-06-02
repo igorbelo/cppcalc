@@ -20,6 +20,10 @@ void Listener::exitFnDeclaration(FasdParser::FnDeclarationContext* ctx) {
     codegen->generate_function_declaration(ctx->identifier->getText(), ctx->param_name->getText());
 }
 
+void Listener::exitFunctionCall(FasdParser::FunctionCallContext* ctx) {
+    codegen->generate_function_call(ctx->identifier->getText());
+}
+
 void Listener::exitFnExpression(FasdParser::FnExpressionContext* ctx) {
     codegen->generate_function_expression();
 }

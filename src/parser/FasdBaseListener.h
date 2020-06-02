@@ -43,6 +43,9 @@ public:
   virtual void enterInnerExpr(FasdParser::InnerExprContext * /*ctx*/) override { }
   virtual void exitInnerExpr(FasdParser::InnerExprContext * /*ctx*/) override { }
 
+  virtual void enterFunctionCall(FasdParser::FunctionCallContext * /*ctx*/) override { }
+  virtual void exitFunctionCall(FasdParser::FunctionCallContext * /*ctx*/) override { }
+
 
   virtual void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }
   virtual void exitEveryRule(antlr4::ParserRuleContext * /*ctx*/) override { }

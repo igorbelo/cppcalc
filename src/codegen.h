@@ -13,6 +13,7 @@ struct Codegen {
     void generate_assignment(std::string identifier);
     void generate_identifier(std::string identifier);
     void generate_function_declaration(std::string identifier, std::string param);
+    void generate_function_call(std::string identifier);
     void generate_function_expression();
     void print();
 
@@ -23,6 +24,7 @@ private:
     Stack<llvm::BasicBlock*> block_stack;
     Stack<llvm::Value*> ret_stack;
     std::map<std::string, llvm::Value*> assignments;
+    std::map<std::string, llvm::Value*> functions;
 
     void run_passes();
 };

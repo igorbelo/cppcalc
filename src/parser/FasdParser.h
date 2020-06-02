@@ -162,6 +162,17 @@ public:
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
   };
 
+  class  FunctionCallContext : public ExpressionContext {
+  public:
+    FunctionCallContext(ExpressionContext *ctx);
+
+    antlr4::Token *identifier = nullptr;
+    ExpressionContext *expression();
+    antlr4::tree::TerminalNode *IDENTIFIER();
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+  };
+
   ExpressionContext* expression();
   ExpressionContext* expression(int precedence);
 
