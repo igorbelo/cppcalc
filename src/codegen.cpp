@@ -85,16 +85,16 @@ void Codegen::print() {
 }
 
 void Codegen::run_passes() {
-    // llvm::PassBuilder passBuilder;
-    // llvm::LoopAnalysisManager loopAnalysisManager(true);
-    // llvm::FunctionAnalysisManager functionAnalysisManager(true);
-    // llvm::CGSCCAnalysisManager cGSCCAnalysisManager(true);
-    // llvm::ModuleAnalysisManager moduleAnalysisManager(true);
-    // passBuilder.registerModuleAnalyses(moduleAnalysisManager);
-    // passBuilder.registerCGSCCAnalyses(cGSCCAnalysisManager);
-    // passBuilder.registerFunctionAnalyses(functionAnalysisManager);
-    // passBuilder.registerLoopAnalyses(loopAnalysisManager);
-    // passBuilder.crossRegisterProxies(loopAnalysisManager, functionAnalysisManager, cGSCCAnalysisManager, moduleAnalysisManager);
-    // llvm::ModulePassManager modulePassManager = passBuilder.buildPerModuleDefaultPipeline(llvm::PassBuilder::OptimizationLevel::O1);
-    // modulePassManager.run(module, moduleAnalysisManager);
+    llvm::PassBuilder passBuilder;
+    llvm::LoopAnalysisManager loopAnalysisManager(true);
+    llvm::FunctionAnalysisManager functionAnalysisManager(true);
+    llvm::CGSCCAnalysisManager cGSCCAnalysisManager(true);
+    llvm::ModuleAnalysisManager moduleAnalysisManager(true);
+    passBuilder.registerModuleAnalyses(moduleAnalysisManager);
+    passBuilder.registerCGSCCAnalyses(cGSCCAnalysisManager);
+    passBuilder.registerFunctionAnalyses(functionAnalysisManager);
+    passBuilder.registerLoopAnalyses(loopAnalysisManager);
+    passBuilder.crossRegisterProxies(loopAnalysisManager, functionAnalysisManager, cGSCCAnalysisManager, moduleAnalysisManager);
+    llvm::ModulePassManager modulePassManager = passBuilder.buildPerModuleDefaultPipeline(llvm::PassBuilder::OptimizationLevel::O1);
+    modulePassManager.run(module, moduleAnalysisManager);
 }
